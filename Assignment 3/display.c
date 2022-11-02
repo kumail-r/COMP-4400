@@ -99,54 +99,34 @@ int main() {
         }
     }
     // initialize output array with empty spaces
-    char output[100 * 4 + 1][100 * 2 + 1] = {[0 ... (100 * 4)][0 ... (100 * 2)] = ' '};
+    char output[100 * 2 + 1][100 * 4 + 1] = {[0 ... (100 * 2)][0 ... (100 * 4)] = ' '};
     for (int i = 0; i < cwRow; i++) {
         for (int j = 0; j < cwCol; j++) {
-            printf("%c", crossward[i][j]);
             if (crossward[i][j] != '0') {
-                int letterXIndex = i * 4 + 2;
-                int letterYIndex = j * 2 + 1;
-                output[letterXIndex][letterYIndex] = crossward[i][j];
+                int letterXIndex = j * 4 + 2;
+                int letterYIndex = i * 2 + 1;
+                output[letterYIndex][letterXIndex] = crossward[i][j];
+                output[letterYIndex][letterXIndex - 2] = '|';
+                output[letterYIndex][letterXIndex + 2] = '|';
+                output[letterYIndex - 1][letterXIndex] = '-';
+                output[letterYIndex - 1][letterXIndex - 1] = '-';
+                output[letterYIndex - 1][letterXIndex - 2] = '-';
+                output[letterYIndex - 1][letterXIndex + 1] = '-';
+                output[letterYIndex - 1][letterXIndex + 2] = '-';
+                output[letterYIndex + 1][letterXIndex] = '-';
+                output[letterYIndex + 1][letterXIndex + 1] = '-';
+                output[letterYIndex + 1][letterXIndex + 2] = '-';
+                output[letterYIndex + 1][letterXIndex - 1] = '-';
+                output[letterYIndex + 1][letterXIndex - 2] = '-';
             }
         }
-        printf("\n");
     }
     
-    for (int i = 0; i < cwRow * 4 + 1; i++) { 
-        printf("Line:");
-        for (int j = 0; j < cwCol * 2 + 1; j++) {
+    for (int i = 0; i < cwRow * 2 + 1; i++) { 
+        for (int j = 0; j < cwCol * 4 + 1; j++) {
             printf("%c", output[i][j]);
         }
         printf("\n");
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     return 0;
 }
