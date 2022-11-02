@@ -58,28 +58,67 @@ int main() {
         ch = getc(fp);
     }
     cwRow++;
-    printf("col:%d, row:%d\n", cwCol, cwRow);
-    int wordCounter = 0;
+    char crosswardCopy[100][100] = {'\0'}; // create copy to be used for downs
     for (int i = 0; i < cwRow; i++){
-        for (int j = 0; j < cwCol; j++){
-            if (crossward[i][j] == '1' && j + 1 < cwCol && crossward[i][j + 1] == '1'){
+        strcpy(crosswardCopy[i], crossward[i]);
+    }
+    int wordCounter = 0;
+    for (int i = 0; i < cwRow; i++) { // place all acrosses into crossward
+        for (int j = 0; j < cwCol; j++) {
+            if (crossward[i][j] == '1' && j + 1 < cwCol && crossward[i][j + 1] == '1') {
                 int tempWordLength = 0;
-                while (crossward[i][j] != '0' && j < cwCol){
+                while (crossward[i][j] != '0' && j < cwCol) {
                     crossward[i][j] = solvedWords[wordCounter][tempWordLength];
-                    printf("%c", crossward[i][j]);
                     tempWordLength++;
                     j++;
                 }
                 wordCounter++;
             }
+        }
+    }
+    
+    for (int i = 0; i < cwCol; i++) { // place downs into crosswardCopy
+        for (int j = 0; j < cwRow; j++) {
+            if (crosswardCopy[j][i] == '1' && j + 1 < cwRow && crosswardCopy[j + 1][i] == '1') {
+                int tempWordLength = 0;
+                while (crosswardCopy[j][i] != '0' && j < cwRow) {
+                    crosswardCopy[j][i] = solvedWords[wordCounter][tempWordLength];
+                    tempWordLength++;
+                    j++;
+                }
+                wordCounter++;
+            }
+        }
+    }
+    
+    for (int i = 0; i < cwRow; i++) { // get filled in array and print
+        for (int j = 0; j < cwCol; j++) {
+            if (crossward[i][j] == '1') {
+                crossward[i][j] = crosswardCopy[i][j];
+            }
+        }
+    }
+    // initialize output array with empty spaces
+    char output[100 * 4 + 1][100 * 2 + 1] = {[0 ... (100 * 4)][0 ... (100 * 2)] = ' '};
+    for (int i = 0; i < cwRow; i++) {
+        for (int j = 0; j < cwCol; j++) {
             printf("%c", crossward[i][j]);
+            if (crossward[i][j] != '0') {
+                int letterXIndex = i * 4 + 2;
+                int letterYIndex = j * 2 + 1;
+                output[letterXIndex][letterYIndex] = crossward[i][j];
+            }
         }
         printf("\n");
     }
     
-    
-    
-    
+    for (int i = 0; i < cwRow * 4 + 1; i++) { 
+        printf("Line:");
+        for (int j = 0; j < cwCol * 2 + 1; j++) {
+            printf("%c", output[i][j]);
+        }
+        printf("\n");
+    }
     
     
     
