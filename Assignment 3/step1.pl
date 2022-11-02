@@ -1,3 +1,5 @@
+% By Kumail Raza %
+
 % WORDS %
 word(prolog, [p,r,o,l,o,g], 6).
 word(perl, [p,e,r,l], 4).
@@ -17,7 +19,7 @@ word(parser, [p,a,r,s,e,r], 6).
 word(coop, [c,o,o,p], 4).
 word(loop, [l,o,o,p], 4).
 word(fork, [f,o,r,k], 4).
-word(kernel, [k,e,r,n,e,l], 6).
+word(kernal, [k,e,r,n,a,l], 6).
 word(api, [a,p,i], 3).
 word(mouse, [m,o,u,s,e], 5).
 word(fifo, [f,i,f,o], 4).
@@ -25,13 +27,14 @@ word(pipe, [p,i,p,e], 4).
 
 % WORD INTERSECTIONS %
 intersection(Word1, Word2, Index1, Index2):-
-	dif(Word1, Word2),
-	word(Word1, List1, Length1),
-	nth0(Index1, List1, Letter),
-	Index1 < Length1,
-	word(Word2, List2, Length2),
-	nth0(Index2, List2, Letter),
-	Index2 < Length2.
+    dif(Word1, Word2),
+    word(Word1, List1, Length1),
+    nth0(Index1, List1, Letter),
+    Index1 < Length1,
+    word(Word2, List2, Length2),
+    nth0(Index2, List2, Letter),
+    Index2 < Length2.
+
 % CROSSWARD DATA %
 crossward(W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11):-
     intersection(W1, W6, 0, 0),
@@ -45,14 +48,14 @@ crossward(W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11):-
     intersection(W4, W8, 0, 2),
     intersection(W4, W10, 2, 2),
     intersection(W5, W7, 1, 5),
-	word(W1, _, 6),
-	word(W2, _, 5),
-	word(W3, _, 3),
-	word(W4, _, 3),
-	word(W5, _, 3),
-	word(W6, _, 4),
-	word(W7, _, 6),
-	word(W8, _, 3),
-	word(W9, _, 3),
-	word(W10, _, 3),
-	word(W11, _, 5).
+    word(W1, _, 6),
+    word(W2, _, 5),
+    word(W3, _, 3),
+    word(W4, _, 3),
+    word(W5, _, 3),
+    word(W6, _, 4),
+    word(W7, _, 6),
+    word(W8, _, 3),
+    word(W9, _, 3),
+    word(W10, _, 3),
+    word(W11, _, 5).
