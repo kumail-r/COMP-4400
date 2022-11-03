@@ -7,7 +7,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-void createStep2File(char wordList[100][100], int wordCount){
+int wordNumber(int crossward[100][100], int rows, int cols, int x, int y){
+    
+}
+
+void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 * 100], int lengthListLength){
     FILE* fp = fopen("step2.pl", "w"); // open file pointer
     if(!fp) { // check if file loaded correctly
         printf("Error in opening step2.pl");
@@ -44,6 +48,10 @@ void createStep2File(char wordList[100][100], int wordCount){
     // handle intersections
     fprintf(fp, "    intersections(insert intersections code here!)\n");
     
+    // handle word statements
+    for (int i = 0; i < lengthListLength; i++) {
+        fprintf(fp, "    word(W%d, _, %d)%c\n", (i + 1), lengthList[i], i + 1 == lengthListLength ? '.' : ',');
+    }
     fclose(fp);
 }
 
@@ -101,7 +109,35 @@ int main() {
         }
         ch = getc(fp);
     }
-    createStep2File(wordList, wordCount);
+    cwRow++;
+    int wordLengthList[100 * 100] = { }; // initialize to all 0s 
+    int wordLengthListCounter = 0;
+    for (int i = 0; i < cwRow; i++) {
+        for (int j = 0; j < cwCol; j++) {
+            if (crosswardMatrix[i][j] == 1 && j + 1 < cwCol && crosswardMatrix[i][j + 1] == 1) {
+                while (crosswardMatrix[i][j] == 1 && j < cwCol) {
+                    wordLengthList[wordLengthListCounter]++;
+                    j++;
+                }
+                wordLengthListCounter++;
+            }
+        }
+    }
+    int acrossCount = wordLengthListCounter;
+    for (int i = 0; i < cwCol; i++) {
+        for (int j = 0; j < cwRow; j++) {
+            if (crosswardMatrix[j][i] == 1 && j + 1 < cwRow && crosswardMatrix[j + 1][i] == 1) {
+                while (crosswardMatrix[j][i] == 1 && j < cwRow) {
+                    wordLengthList[wordLengthListCounter]++;
+                    j++;
+                }
+                wordLengthListCounter++;
+            }
+        }
+    }
+    int downCount = wordLengthListCounter - acrossCount;
+
+    createStep2File(wordList, wordCount, wordLengthList, wordLengthListCounter);
     return 0;
 }
 
