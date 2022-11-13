@@ -42,6 +42,7 @@ crossward(W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11):-
     intersection(W1, W9, 5, 0),
     intersection(W2, W7, 0, 2),
     intersection(W2, W8, 2, 0),
+    intersection(W2, W9, 3, 2),
     intersection(W2, W10, 4, 0),
     intersection(W3, W10, 0, 1),
     intersection(W3, W11, 2, 3),
