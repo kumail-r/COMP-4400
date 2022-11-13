@@ -63,8 +63,9 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
         }
     }
     // print out "intersection"
-    fprintf(fp, "\n%% WORD INTERSECTIONS %%\nintersection(Word1, Word2, Index1, Index2):-\n    dif(Word1, Word2),\n    word(Word1, List1, Length1),\n    nth0(Index1, List1, Letter),\n    Index1 < Length1,\n    word(Word2, List2, Length2),\n    nth0(Index2, List2, Letter),\n    Index2 < Length2.\n");
-    
+    //fprintf(fp, "\n%% WORD INTERSECTIONS %%\nintersection(Word1, Word2, Index1, Index2):-\n    dif(Word1, Word2),\n    word(Word1, List1, Length1),\n    nth0(Index1, List1, Letter),\n    Index1 < Length1,\n    word(Word2, List2, Length2),\n    nth0(Index2, List2, Letter),\n    Index2 < Length2.\n");
+    fprintf(fp "\n%% WORD INTERSECTIONS %%\ndoes_exist(0, [C|_], C).\ndoes_exist(I, [_|T], C) :-\n    Y is I-1,\n    does_exist(Y, T, C).\nis_same([X|W], [X|Z]) :- is_same(W, Z).\n\nintersection(W1, W2, Index1, Index2):-\n    word(W1, List1, Length1),\n    word(W2, List2, Length2),\n    \+is_same(List1, List2),\n    does_exist(Index1, List1, Letter),\n    Index1 < Length1,\n    does_exist(Index2, List2, Letter),\n    Index2 < Length2.");
+	
     fprintf(fp, "\n%% CROSSWORD DATA %%\ncrossward(");
     // fprintf(fp, "W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11");
     for(int i = 1; i < lengthListLength + 1; i++) {
