@@ -7,11 +7,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-int wordNumber(int crossward[100][100], int rows, int cols, int x, int y){
+int wordNumber(FILE* fp, int crossward[100][100], int rows, int cols, int x, int y, int acrossWordIndex, int downWordNumber){
+    int downWordIndex = 0;
+    while(1){
+        if (x - 1 < 0 || crossward[x - 1][y] == 0){
+            break;
+        }
+        downWordIndex += 1;
+        x -= 1;
+    }
     
+    fprintf(fp, "    intersection(W%d,W?)\n", downWordNumber);
 }
 
-void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 * 100], int lengthListLength){
+void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 * 100], int lengthListLength, int downCount,int crossward[100][100], int cwRow, int cwCol){
     FILE* fp = fopen("step2.pl", "w"); // open file pointer
     if(!fp) { // check if file loaded correctly
         printf("Error in opening step2.pl");
@@ -45,7 +54,40 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
     fprintf(fp, "\n%% CROSSWORD DATA %%\n");
     fprintf(fp, "crossward(W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11):-\n");
     
+    int acrossCount = lengthListLength - downCount;
     // handle intersections
+    int wordCounter = 0;
+    int isWord = 0;
+    for (int i = 0; i < cwRow; i++) {
+        isWord = 0;
+        for (int j = 0; j < cwCol; j++) {
+            if (crossward[i][j] == 1 && j < cwCol - 1 && crossward[i][j + 1] == 1 && isWord == 0) {
+                printf("i = %d, j = %d\n", i,j);
+                isWord = 1;
+                wordCounter += 1;
+                if (i > 0 && crossward[i - 1][j] == 1) {
+                    // on top
+                    wordNumber(fp, crossward, cwRow, cwCol, i, j, isWord - 1, wordCounter);
+                    
+                }
+                else if (i < cwRow - 1 && crossward[i + 1][j] == 1) { 
+                    // below
+                }
+            }
+            else if (crossward[i][j] == 1 && isWord > 0) {
+                isWord += 1;
+                if (i > 0 && crossward[i - 1][j] == 1) {
+                    // on top
+                }
+                else if (i < cwRow - 1 && crossward[i + 1][j] == 1) { 
+                    // below
+                }
+            }
+            else if (crossward[i][j] == 0 && isWord > 0) {
+                isWord = 0;
+            }
+        }
+    }
     fprintf(fp, "    intersections(insert intersections code here!)\n");
     
     // handle word statements
@@ -136,27 +178,7 @@ int main() {
         }
     }
     int downCount = wordLengthListCounter - acrossCount;
-
-    createStep2File(wordList, wordCount, wordLengthList, wordLengthListCounter);
+    
+    createStep2File(wordList, wordCount, wordLengthList, wordLengthListCounter, downCount,crosswardMatrix, cwRow, cwCol);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
