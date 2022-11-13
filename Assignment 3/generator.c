@@ -148,6 +148,10 @@ int main() {
             memset(word, 0, strlen(word));
         }
     }
+    wordCount--;
+    for (int i = 0; i < wordCount; i++){
+	printf("word:%s\n",wordList[i]);
+    }
     fclose(fp);
     int crosswardMatrix[100][100];
     for (int i = 0; i < 100; i++) {
@@ -164,8 +168,12 @@ int main() {
     ch = getc(fp);
     int cwRow = 0;
     int cwCol = 0;
+    int tempRow = 0;
+    int tempCol = 0;
     while(ch != EOF) {
         if (ch == '\n') {
+	    tempRow = cwRow;
+	    tempCol = cwCol;
             cwCol = 0;
             cwRow += 1;
         }
@@ -175,7 +183,9 @@ int main() {
         }
         ch = getc(fp);
     }
-    cwRow++;
+    cwRow = tempRow + 1;
+    cwCol = tempCol;
+    printf("row:%d,col:%d\n\n",cwRow,cwCol);
     int wordLengthList[100 * 100] = { }; // initialize to all 0s 
     int wordLengthListCounter = 0;
     for (int i = 0; i < cwRow; i++) {
