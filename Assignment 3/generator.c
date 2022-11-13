@@ -38,6 +38,7 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
         printf("Error in opening step2.pl");
         exit(1); // if not, exit
     }
+    printf("step2.pl created successfully.\n");
     fprintf(fp, "%% By Kumail Raza %%\n%% 105225432 %%\n\n");
     fprintf(fp, "%% WORDS %%\n"); // print comment in file
     for(int i = 0; i < wordCount; i++) { // iterate through all words
@@ -63,8 +64,16 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
     }
     // print out "intersection"
     fprintf(fp, "\n%% WORD INTERSECTIONS %%\nintersection(Word1, Word2, Index1, Index2):-\n    dif(Word1, Word2),\n    word(Word1, List1, Length1),\n    nth0(Index1, List1, Letter),\n    Index1 < Length1,\n    word(Word2, List2, Length2),\n    nth0(Index2, List2, Letter),\n    Index2 < Length2.\n");
-    fprintf(fp, "\n%% CROSSWORD DATA %%\n");
-    fprintf(fp, "crossward(W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11):-\n");
+    
+    fprintf(fp, "\n%% CROSSWORD DATA %%\ncrossward(");
+    // fprintf(fp, "W1,W2,W3,W4,W5,W6,W7,W8,W9,W10,W11");
+    for(int i = 1; i < lengthListLength + 1; i++) {
+        fprintf(fp, "W%d", i);
+        if (i != lengthListLength) {
+            fprintf(fp, ",");
+        }
+    }
+    fprintf(fp, "):-\n");
     
     int acrossCount = lengthListLength - downCount;
     // handle intersections
@@ -74,7 +83,6 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
         isWord = 0;
         for (int j = 0; j < cwCol; j++) {
             if (crossward[i][j] == 1 && j < cwCol - 1 && crossward[i][j + 1] == 1 && isWord == 0) {
-                printf("i = %d, j = %d\n", i,j);
                 isWord = 1;
                 wordCounter += 1;
                 if (i > 0 && crossward[i - 1][j] == 1) {
@@ -118,6 +126,7 @@ int main() {
         printf("Error in opening words.txt");
         exit(1);
     }
+    printf("words.txt opened successfully.\n");
     char ch = getc(fp);
     char word[100];
     memset(word,0,strlen(word)); 
@@ -151,6 +160,7 @@ int main() {
         printf("Error in opening the file..!!");
         exit(1);
     }
+    printf("binpattern.txt opened successfully.\n");
     ch = getc(fp);
     int cwRow = 0;
     int cwCol = 0;
