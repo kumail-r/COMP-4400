@@ -26,13 +26,20 @@ word(fifo, [f,i,f,o], 4).
 word(pipe, [p,i,p,e], 4).
 
 % WORD INTERSECTIONS %
-intersection(Word1, Word2, Index1, Index2):-
-    dif(Word1, Word2),
-    word(Word1, List1, Length1),
-    nth0(Index1, List1, Letter),
+does_exist(0, [C|_], C).
+does_exist(I, [_|T], C) :-
+    Y is I-1,
+    does_exist(Y, T, C).
+
+is_same([X|W], [X|Z]) :- is_same(W, Z).
+
+intersection(W1, W2, Index1, Index2):-
+    word(W1, List1, Length1),
+    word(W2, List2, Length2),
+    \+is_same(List1, List2),
+    does_exist(Index1, List1, Letter),
     Index1 < Length1,
-    word(Word2, List2, Length2),
-    nth0(Index2, List2, Letter),
+    does_exist(Index2, List2, Letter),
     Index2 < Length2.
 
 % CROSSWARD DATA %
