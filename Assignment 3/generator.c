@@ -116,6 +116,18 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
     for (int i = 0; i < lengthListLength; i++) {
         fprintf(fp, "    word(W%d, _, %d)%c\n", (i + 1), lengthList[i], i + 1 == lengthListLength ? '.' : ',');
     }
+    
+    // for file i/o
+    fprintf(fp, "\ncrossward:-\n    open(\'selectedwords.txt\', write, Stream),\n    crossward(W1");
+    for (int i = 1; i < lengthListLength; i++){
+        fprintf(fp, ", W%d", i + 1);
+    }
+    fprintf(fp, "),\n");
+    for (int i = 0; i < lengthListLength; i++){
+        fprintf(fp, "    write(Stream, W%d),\n    write(Stream,\'\\n\'),\n", i + 1);
+    }
+    fprintf(fp, "    close(Stream).");    
+
     fclose(fp);
 }
 
