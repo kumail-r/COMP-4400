@@ -12,28 +12,16 @@ int main() {
     }
     char ch = getc(fp);
     int solvedMax = 0; // number of words in solvedWords
-    
+    char tmpWord[100] = {'\0'};
     while(ch != EOF) {
-        if(ch == 'W') {
-            ch = getc(fp);
-            int num = 0;
-            while(ch != ' ') {
-                num = num * 10;
-                num = num + (ch - 48);
-                ch = getc(fp);
-            }
-            solvedMax = num > solvedMax ? num : solvedMax;
-            ch = getc(fp);
-            ch = getc(fp);
-            ch = getc(fp);
-            char word[100] = {'\0'};
-            while(ch != ',' && ch != EOF) {
-                strncat(word, &ch, 1);
-                ch = getc(fp);
-            }
-            strcpy(solvedWords[num - 1], word); 
-        }
-        ch = getc(fp);
+        if (ch == '\n') {
+            strncat(solvedWords[solvedMax],"\0",1);
+	    solvedMax++;
+	}
+	else if (ch >= 'a' && ch <= 'z'){
+	    strncat(solvedWords[solvedMax],&ch,1);
+	}
+	ch = getc(fp);
     }
     fclose(fp);
     
@@ -46,17 +34,23 @@ int main() {
     char crossward[100][100] = {'\0'};
     int cwRow = 0;
     int cwCol = 0;
+    int tmpRow = 0;
+    int tmpCol = 0;
     while (ch != EOF) {
         if (ch != '\n'){
             crossward[cwRow][cwCol] = ch;
             cwCol++;
         }
         else{
+	    tmpRow = cwRow;
+	    tmpCol = cwCol;
             cwCol = 0;
             cwRow++;
         }
         ch = getc(fp);
     }
+    cwCol = tmpCol;
+    cwRow = tmpRow;
     cwRow++;
     char crosswardCopy[100][100] = {'\0'}; // create copy to be used for downs
     for (int i = 0; i < cwRow; i++){
