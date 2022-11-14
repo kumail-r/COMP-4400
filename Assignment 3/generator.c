@@ -49,6 +49,9 @@ void createStep2File(char wordList[100][100], int wordCount, int lengthList[100 
             if ((lower[k] >= 'A') && (lower[k] <= 'Z')) {
                 lower[k] = lower[k] + 32; // if upper case, convert to lower
             }
+	    else {
+                lower[k] = '\0';
+	    }
         }
         // print out word facts (example: word(word, [w,o,r,d], word_length)))
         fprintf(fp, "word(%s, [", lower); 
